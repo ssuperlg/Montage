@@ -56,6 +56,7 @@ public class ZoomPic {
 	public void zoom() {
 
 		try {
+			OutputStream out = null;
 			for (int i = 0; i < num; i++) {
 				// 获取一个宽、长是原来scale的图像实例
 				Image image = bufImg[i].getScaledInstance(width, width, Image.SCALE_DEFAULT);
@@ -69,11 +70,10 @@ public class ZoomPic {
 				g.dispose();
 
 				// 输出
-				OutputStream out;
 				out = new FileOutputStream(aimDir+"\\"+i+".jpg");
 				ImageIO.write(tag, "JPG", out);
-				out.close();
 			}
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -15,12 +15,12 @@ import javax.swing.JPanel;
  * @author wph
  *
  */
-public class MyPanel extends JPanel {
+public class Panel extends JPanel {
 	private BufferedImage img;
 
-	public MyPanel() {
+	public Panel() {
 		try {
-			img = ImageIO.read(new File("d:\\bg.jpg"));
+			img = ImageIO.read(new File("bg.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

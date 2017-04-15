@@ -18,8 +18,9 @@ import javax.swing.JLabel;
 
 public class Frame extends JFrame {
 
-	private MyPanel contentPane;
+	private Panel Panel;
 	private JTextField text;
+	private JTextField pageTest;
 
 	/**
 	 * Launch the application.
@@ -48,34 +49,45 @@ public class Frame extends JFrame {
 		setTitle("Search From Github");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 322);
-		contentPane = new MyPanel();
-		getContentPane().add(contentPane);
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+		Panel = new Panel();
+		getContentPane().add(Panel);
+		Panel.setLayout(null);
+		// setContentPane(Panel);
 		text = new JTextField();
 		text.setBounds(171, 113, 93, 35);
-		text.setBackground(Color.GRAY);
 		text.setColumns(10);
-		contentPane.add(text);
+		text.setBackground(Color.GRAY);
+		Panel.add(text);
 		JButton button = new JButton("GO");
 		button.setBounds(298, 229, 93, 23);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String s = text.getText();
-				String url = "https://github.com/search?q="+s+"&type=Users&utf8=%E2%9C%93";
-				Model.catchImg(url);
-				System.out.println(Model.getI());
-				DealPic dp = new DealPic("d:\\img", "d:\\target",Model.getI());
+				int page = Integer.parseInt(pageTest.getText());
+				String url = "https://github.com/search?q=" + s + "&type=Users&utf8=%E2%9C%93";
+				for (int i = 0; i < page; i++) {
+					Model.catchImg(url);
+					Model.nextPage();
+					System.out.println(i);
+				}
+				DealPic dp = new DealPic("d:\\img", "d:\\target", Model.getI());
 				dp.run();
+				System.out.println(Model.getI());
 				System.out.println("OK");
-				PicFrame picFrame = new PicFrame();
-				picFrame.setVisible(true);
+				// PicFrame picFrame = new PicFrame();
+				// picFrame.setVisible(true);
 			}
 		});
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button.setBackground(UIManager.getColor("Button.darkShadow"));
 		button.setForeground(Color.PINK);
-		contentPane.add(button);
+		Panel.add(button);
+
+		pageTest = new JTextField();
+		pageTest.setBackground(Color.GRAY);
+		pageTest.setBounds(204, 158, 21, 29);
+		Panel.add(pageTest);
+		pageTest.setColumns(10);
 	}
 }

@@ -3,6 +3,8 @@ package com.montage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 
@@ -31,11 +33,11 @@ public class DealPic {
 	 */
 	private BufferedImage[] smallImg;
 
-	private static int smallSize = 45;
-	private int modelSize = 150;
+	private static int smallSize = 40;
+	private int modelSize = 200;
 	private String aimDir;
 	private int num  ;
-
+	private ZoomTask task ;
 	/**
 	 * 构造方法
 	 * 
@@ -47,6 +49,7 @@ public class DealPic {
 	public DealPic(String srcDir, String aimDir,int num) {
 		this.num = num ;
 		this.aimDir = aimDir;
+//		task = new ZoomTask(srcDir, aimDir, smallSize, num);
 		zoom = new ZoomPic(srcDir, aimDir,smallSize,num);
 		smallImg = new BufferedImage[num];
 		try {
@@ -64,11 +67,17 @@ public class DealPic {
 	public void run() {
 		try {
 			
-			// 缩放小图片
+//			 缩放小图片
 			zoom.zoom();
+			
+//			ExecutorService pool = Executors.newCachedThreadPool();
+//			pool.submit(task);
+//			pool.shutdown();
+			
 			BufferedImage image = convertImageTo(modelImg, modelSize, modelSize);
 			int[][] arr = getImageMatrix(image);
 			for (int i = 0; i < num; i++) {
+				System.out.println(i);
 				smallImg[i] = ImageIO.read(new File(aimDir + "\\" + i  + ".jpg"));
 			}
 			BufferedImage[] newsmall = sortPic(smallImg);
