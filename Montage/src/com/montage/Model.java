@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 爬虫
@@ -29,10 +31,11 @@ public class Model {
 		page++;
 	}
 
+	private static ExecutorService executorService = Executors.newCachedThreadPool();
+
 	static boolean UserPicGet = false;
 
 	public static void catchImg(String url) {
-		BufferedOutputStream out = null;
 		OkHttpClient client = new OkHttpClient();
 		try {
 			Document doc = Jsoup.connect(url).get();
@@ -50,14 +53,19 @@ public class Model {
 						// 用户大头像
 						if (element.attr("itemprop").equals("image") && element.attr("class")
 										.equals("u-photo d-block position-relative")) {
-							String userImgUrl = element.attr("href");
-							out = new BufferedOutputStream(new FileOutputStream(new File("d:\\img\\src.jpg")));
-							Request request1 = new Request.Builder().url(userImgUrl).build();
-							Response response1 = client.newCall(request1).execute();
-							byte[] userData = response1.body().bytes();
-							out.write(userData);
-							out.flush();
-							UserPicGet = true;
+							executorService.execute(()->{
+								try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File("d:\\img\\src.jpg")))){
+									String userImgUrl = element.attr("href");
+									Request request1 = new Request.Builder().url(userImgUrl).build();
+									Response response1 = client.newCall(request1).execute();
+									byte[] userData = response1.body().bytes();
+									out.write(userData);
+									out.flush();
+									UserPicGet = true;
+								}catch (Exception e1){
+									e1.printStackTrace();
+								}
+							});
 						}
 
 						// fans小头像
@@ -67,15 +75,18 @@ public class Model {
 							String fansImgUrl = fansElement.attr("src");
 							Request request2 = new Request.Builder().url(fansImgUrl).build();
 							Response response2 = client.newCall(request2).execute();
-							byte[] imgData = response2.body().bytes();
-							// 粉丝头像图片
-							out = new BufferedOutputStream(
-											new FileOutputStream(new File("d:\\img\\" + i++ + ".jpg")));
-							out.write(imgData);
-							out.flush();
+								executorService.execute(()->{
+									try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("d:\\img\\" + i++ + ".jpg"))){
+									byte[] imgData = response2.body().bytes();
+									// 粉丝头像图片
+									out.write(imgData);
+									out.flush();
+									}catch (Exception e2){
+										e2.printStackTrace();
+									}
+								});
 						}
 					}
-					out.close();
 					break;
 				}
 			}
