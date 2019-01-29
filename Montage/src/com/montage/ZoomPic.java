@@ -1,47 +1,43 @@
 package com.montage;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.imageio.ImageIO;
-
 /**
  * 缩放图片
- * 
- * @author wph
  *
+ * @author wph
  */
 public class ZoomPic {
+
 	/**
 	 * 读入图像数组
 	 */
 	private BufferedImage[] bufImg;
-	private String aimDir ;
-	private int width ;
-	private int num  ;
+	private String aimDir;
+	private int width;
+	private int num;
+
 	/**
 	 * 读入关注人的头像
-	 * 
-	 * @param dir
-	 *            存放关注人头像的路径
+	 *
+	 * @param dir 存放关注人头像的路径
 	 */
-	public ZoomPic(String dir,String aimDir,int width,int num) {
-		this.aimDir = aimDir ;
-		this.width = width ;
-		this.num = num ;
+	public ZoomPic(String dir, String aimDir, int width, int num) {
+		this.aimDir = aimDir;
+		this.width = width;
+		this.num = num;
 		try {
 			bufImg = new BufferedImage[num];
 			for (int i = 0; i < num; i++) {
-				bufImg[i] = ImageIO.read(new File(dir + "\\" + i  + ".jpg"));
+				bufImg[i] = ImageIO.read(new File(dir + "\\" + i + ".jpg"));
 			}
-		
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,9 +45,8 @@ public class ZoomPic {
 
 	/**
 	 * 转换图片大小
-	 * 
-	 * @param dir
-	 *            目标路径
+	 *
+	 * @param dir 目标路径
 	 */
 	public void zoom() {
 
@@ -70,7 +65,7 @@ public class ZoomPic {
 				g.dispose();
 
 				// 输出
-				out = new FileOutputStream(aimDir+"\\"+i+".jpg");
+				out = new FileOutputStream(aimDir + "\\" + i + ".jpg");
 				ImageIO.write(tag, "JPG", out);
 			}
 			out.close();

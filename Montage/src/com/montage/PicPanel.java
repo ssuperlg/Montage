@@ -1,16 +1,16 @@
 package com.montage;
 
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
 public class PicPanel extends JPanel {
-	
-	private BufferedImage img ;
+
+	private BufferedImage img;
+
 	/**
 	 * Create the panel.
 	 */
@@ -21,9 +21,10 @@ public class PicPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(img, 0, 0,getWidth(),getHeight(), null);
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 	}
 }

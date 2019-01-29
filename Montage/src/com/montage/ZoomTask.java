@@ -1,16 +1,15 @@
 package com.montage;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.imageio.ImageIO;
-
 public class ZoomTask implements Runnable {
+
 	private BufferedImage[] bufImg;
 	private String aimDir;
 	private int width;

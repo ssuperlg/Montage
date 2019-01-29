@@ -1,20 +1,10 @@
 package com.montage;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 
 public class Frame extends JFrame {
 
@@ -27,6 +17,7 @@ public class Frame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+
 			public void run() {
 				try {
 					File src = new File("d:\\img");
@@ -61,6 +52,7 @@ public class Frame extends JFrame {
 		JButton button = new JButton("GO");
 		button.setBounds(298, 229, 93, 23);
 		button.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 
 				String s = text.getText();
